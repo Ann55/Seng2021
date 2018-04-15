@@ -19,7 +19,10 @@
                    $('.ui.dropdown').dropdown();
                    $('.ui.accordion').accordion();
                    //$('table').tablesort()
-                   $('#events').DataTable();
+                   $('#events').DataTable({
+                        //"dom" :'<"ui input"<"ui input"f>>rt<"bottom"ip><"clear">'
+
+                   });
                 });
         </script>
     </head>
@@ -28,31 +31,6 @@
     <div class="ui center aligned container">
         <table id='events' class="ui sortable celled table">
             <thead>
-                <tr>
-                    <th></th>
-                    <th colspan="3">
-                        <div class="ui fluid icon input">
-                            <input type="text" placeholder="Search...">
-                            <i class="inverted circular search link icon"></i>
-                        </div>
-                    </th>
-
-                    <th class="right aligned collapsing">
-
-                        <div class="ui dropdown">
-                            <div class="text">Sort by</div>
-                            <i class="dropdown icon"></i>
-                            <div class="menu">
-                                <div class="item">Popularity</div>
-                                <div class="item">Date</div>
-                                <div class="item">Alphabetical (society)</div>
-                                <div class="item">Alphabetical (event)</div>
-
-                            </div>
-                        </div>
-
-                    </th>
-                </tr>
                 <tr>
                     <th></th>
                     <th>
