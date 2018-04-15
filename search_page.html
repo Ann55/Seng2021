@@ -2,37 +2,63 @@
 <html>
     <head>
         <title>Search Page</title>
-        <!-- Latest compiled and minified CSS -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script
+        src="https://code.jquery.com/jquery-3.1.1.min.js"
+        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+        crossorigin="anonymous">
+    </script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css"/>
 
-        <!-- jQuery library -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
-        <!-- Latest compiled JavaScript -->
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.js"></script>
+        <script language='javascript'>
+                $(document).ready(function(){
+                   $('.ui.accordion').accordion();
+                });
+        </script>
     </head>
     <body>
-   
-        <div class="row">
-                <div class="col-sm-4"> </div>
-                <div class="col-sm-4">
-                    <input type="text" placeholder="Search.."><br>
-                    event name 
-                    <input type="checkbox" id="myCheck"><br> 
+        <div class="ui center aligned container">
+            <div class="ui large icon input">
+                <input type="text" placeholder="Search...">
+                <i class="search icon"></i>
+            </div>
+            <!-- <input type="submit" value="Submit"><br>
+            event name 
+            <input type="checkbox" id="myCheck"><br> 
+            <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Search by
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a href="#">Popularity</a></li>
+                    <li><a href="#">Date</a></li>
+                    <li><a href="#">Alphabetical</a></li>
+                </ul>
+            </div> -->
+            <div class="ui accordion">
+                <div class="active title">
+                    <i class="dropdown icon"></i>
+                    UNSW dogsoc dogwalking event
                 </div>
-                <div class="col-sm-4"></div>    
-                    <div class="dropdown">
-                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Search by
-                            <span class="caret"></span></button>
-                            <ul class="dropdown-menu">
-                              <li><a href="#">Popularity</a></li>
-                              <li><a href="#">Date</a></li>
-                              <li><a href="#">Alphabetical</a></li>
-                            </ul>
-                    </div>
-
+                <div class="active content">
+                    <p>A dog is a type of domesticated animal. Known for its loyalty and faithfulness, it can be found as a welcome guest in many households across the world.</p>
                 </div>
-        </div>    
-  
+                <div class="title">
+                    <i class="dropdown icon"></i>
+                    What kinds of dogs are there?
+                </div>
+                <div class="content">
+                    <p>There are many breeds of dogs. Each breed varies in size and temperament. Owners often select a breed of dog that they find to be compatible with their own lifestyle and desires from a companion.</p>
+                </div>
+                <div class="title">
+                    <i class="dropdown icon"></i>
+                    How do you acquire a dog?
+                </div>
+                <div class="content">
+                    <p>Three common ways for a prospective owner to acquire a dog is from pet shops, private owners, or shelters.</p>
+                    <p>A pet shop may be the most convenient way to buy a dog. Buying a dog from a private owner allows you to assess the pedigree and upbringing of your dog before choosing to take it home. Lastly, finding your dog from a shelter, helps give a good home to a dog who may not find one so readily.</p>
+                </div>
+            </div>
+        </div>        
     </body>
 </html>

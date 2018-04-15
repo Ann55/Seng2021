@@ -2,26 +2,114 @@
 <html>
     <head>
         <title>Dashboard</title>
-        <!-- Latest compiled and minified CSS -->
+        <script
+        src="https://code.jquery.com/jquery-3.1.1.min.js"
+        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+        crossorigin="anonymous">
+    </script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css"/>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.js"></script>
+        <script language='javascript'>
+                $(document).ready(function(){
+                   $('.ui.accordion').accordion();
+                });
+        </script>
+        
+        <!-- Latest compiled and minified CSS
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
-        <!-- jQuery library -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-        <!-- Latest compiled JavaScript -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+         -->
     </head>
     <body>
-        Home
-        <input type="text" placeholder="Search..">
-        <h1>Saved events</h1>
+   <div class="ui center aligned container">
+        <h1>Home</h1>
+   </div>
+        <div class="ui center aligned container">
+            <table class="ui celled table">
+                    <thead>
+                        <tr>    
+                            <th >Saved events</th>
+                            <th class="right aligned collapsing">
+                                <button class="ui button">
+                                    Search
+                                </button>
+                            </th>
 
-        <button data-toggle="collapse" data-target="#demo">Society</button>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td colspan="4">
+                        <div class="ui accordion">
+                                <div class="title">
+                                    <i class="dropdown icon"></i>
+                                    UNSW dogsoc
+                                </div>
+                                <div class="content">
+                                    <p>
+                                        event: dog meetup<br>
+                                        date: 24/04/18<br>
+                                        fb link: <a href = "https://www.facebook.com/">https://www.facebook.com/</a><br>
+                                    </p>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <div class="ui accordion">
+                                    <div class="title">
+                                        <i class="dropdown icon"></i>
+                                        UNSW lbsoc
+                                    </div>
+                                    <div class="content">
+                                        <p>
+                                            event: sanc meetup for lbs<br>
+                                            date: everyday<br>
+                                            fb link: <a href = "https://www.facebook.com/">https://www.facebook.com/</a><br>
+                                        </p>
+                                    </div>
+                                </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <div class="ui accordion">
+                                <div class="title">
+                                    <i class="dropdown icon"></i>
+                                    UNSW ibissoc
+                                </div>
+                                <div class="content">
+                                    <p>
+                                        event: ibis catching<br>
+                                        date: 44/22/99<br>
+                                        fb link: <a href = "https://www.facebook.com/">https://www.facebook.com/</a><br>
+                                    </p>
+                                </div>
+                            </div>
+                        </td>
 
-        <div id="demo" class="collapse">
-        Event name<br>
-        Location<br>
-        Dates<br>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr><th colspan="4">
+                        <div class="ui right floated pagination menu">
+                        <a class="icon item">
+                            <i class="left chevron icon"></i>
+                        </a>
+                        <a class="item">1</a>
+                        <a class="icon item">
+                            <i class="right chevron icon"></i>
+                        </a>
+                        </div>
+                    </th>
+                    </tr></tfoot>
+                </table>
+            </div>
         </div>
     </body>
 </html>
