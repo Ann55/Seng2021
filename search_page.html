@@ -2,63 +2,122 @@
 <html>
     <head>
         <title>Search Page</title>
-    <script
-        src="https://code.jquery.com/jquery-3.1.1.min.js"
-        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-        crossorigin="anonymous">
-    </script>
+        <script
+            src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+            crossorigin="anonymous">
+        </script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css"/>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.js"></script>
+        <script src="https://semantic-ui.com/javascript/library/tablesort.js"></script>
+        <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.16/js/dataTables.semanticui.min.js"></script>
+
         <script language='javascript'>
                 $(document).ready(function(){
+                   $('.ui.dropdown').dropdown();
                    $('.ui.accordion').accordion();
+                   //$('table').tablesort()
+                   $('#events').DataTable();
                 });
         </script>
     </head>
-    <body>
-        <div class="ui center aligned container">
-            <div class="ui large icon input">
-                <input type="text" placeholder="Search...">
-                <i class="search icon"></i>
-            </div>
-            <!-- <input type="submit" value="Submit"><br>
-            event name 
-            <input type="checkbox" id="myCheck"><br> 
-            <div class="dropdown">
-                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Search by
-                    <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a href="#">Popularity</a></li>
-                    <li><a href="#">Date</a></li>
-                    <li><a href="#">Alphabetical</a></li>
-                </ul>
-            </div> -->
-            <div class="ui accordion">
-                <div class="active title">
-                    <i class="dropdown icon"></i>
-                    UNSW dogsoc dogwalking event
-                </div>
-                <div class="active content">
-                    <p>A dog is a type of domesticated animal. Known for its loyalty and faithfulness, it can be found as a welcome guest in many households across the world.</p>
-                </div>
-                <div class="title">
-                    <i class="dropdown icon"></i>
-                    What kinds of dogs are there?
-                </div>
-                <div class="content">
-                    <p>There are many breeds of dogs. Each breed varies in size and temperament. Owners often select a breed of dog that they find to be compatible with their own lifestyle and desires from a companion.</p>
-                </div>
-                <div class="title">
-                    <i class="dropdown icon"></i>
-                    How do you acquire a dog?
-                </div>
-                <div class="content">
-                    <p>Three common ways for a prospective owner to acquire a dog is from pet shops, private owners, or shelters.</p>
-                    <p>A pet shop may be the most convenient way to buy a dog. Buying a dog from a private owner allows you to assess the pedigree and upbringing of your dog before choosing to take it home. Lastly, finding your dog from a shelter, helps give a good home to a dog who may not find one so readily.</p>
-                </div>
-            </div>
-        </div>        
+
+<body>    
+    <div class="ui center aligned container">
+        <table id='events' class="ui sortable celled table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th colspan="3">
+                        <div class="ui fluid icon input">
+                            <input type="text" placeholder="Search...">
+                            <i class="inverted circular search link icon"></i>
+                        </div>
+                    </th>
+
+                    <th class="right aligned collapsing">
+
+                        <div class="ui dropdown">
+                            <div class="text">Sort by</div>
+                            <i class="dropdown icon"></i>
+                            <div class="menu">
+                                <div class="item">Popularity</div>
+                                <div class="item">Date</div>
+                                <div class="item">Alphabetical (society)</div>
+                                <div class="item">Alphabetical (event)</div>
+
+                            </div>
+                        </div>
+
+                    </th>
+                </tr>
+                <tr>
+                    <th></th>
+                    <th>
+                        Society
+                    </th>
+                    <th>
+                        Event name
+                    </th>
+                    <th>
+                        Date
+                    </th>      
+                    <th>
+                        popularity
+                    </th>   
+                </tr>
+            </thead>
+                <tbody>
+                    <tr>
+                        <td class="collapsing">
+                            <div class="ui fitted slider checkbox">
+                            <input type="checkbox"> <label></label>
+                            </div>
+                        </td>
+                        <td>UNSW dogsoc</td>
+                        <td>Dogwalking</td>
+                        <td>24/04/18</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td class="collapsing">
+                            <div class="ui fitted slider checkbox">
+                            <input type="checkbox"> <label></label>
+                            </div>
+                        </td>
+                        <td>UNSW lbsoc</td>
+                        <td>sanc meetup for lbs</td>
+                        <td>everyday</td>
+                        <td>2</td>
+                    </tr>
+                    <tr>
+                        <td class="collapsing">
+                            <div class="ui fitted slider checkbox">
+                            <input type="checkbox"> <label></label>
+                            </div>
+                        </td>
+                        <td>UNSW ibisoc</td>
+                        <td>ibis catching</td>
+                        <td>22/66/44</td>
+                        <td>3</td>
+                    </tr>
+                </tbody>
+                <tfoot class="full-width">
+                    <tr>
+                        <td>
+                            <div class="ui small button">
+                                Save
+                            </div>
+                        </td>
+                        <td colspan="4">
+
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>         
+        </div>
+    </div>
     </body>
 </html>
