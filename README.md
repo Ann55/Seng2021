@@ -2,16 +2,14 @@
 Event searcher :DD<br/>
 hello
 
-To run code with React:
+To run code with React
+initialising: 
 ```
-initialising:
+npm install (once in event_searcher folder)
 ```
-npm install
+
+to run: 
 ```
-to run:
+npm start (once in event_searcher folder)
 ```
-npm start (once in src folder)
-```
-Website link:
-```
-https://event-search-55.firebaseapp.com/
+Website link: https://event-search-55.firebaseapp.com/
