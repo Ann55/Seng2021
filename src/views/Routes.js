@@ -28,7 +28,7 @@ class App extends Component {
           <Route path="/UserDashboard" render={() => <UserDashboard isLoggedIn={this.state.login} />} />
           <Route path="/Search" component={Search} />
           <Route path ="/ForgotPassword" component={Forgot} />
-          <Route path="/login" render={(routeProps) => <Login login={this.login} {...routeProps}/> } />
+          <Route path="/Login" render={(routeProps) => <Login login={this.login} {...routeProps}/> } />
           <Route path ="/Logout" render={() => <Logout logout={this.logout}/>} />
           <Route path ="/Detail/:id" component={Detail} />
           <Route path="/Calendar" component={Calendar} />
