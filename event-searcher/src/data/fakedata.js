@@ -11,6 +11,6 @@ export const data = [
     {id: 8, isSaved: true, society: 'UNSW bsoc', eventName: 'also doin sum work', date: '29/06/18', popularity: 8 },
 ]
 
-export const userdata = [
+export const userData = [
     {userName: 'Lb', password: 'iLoveSanc'}
 ]

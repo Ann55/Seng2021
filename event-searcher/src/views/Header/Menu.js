@@ -26,13 +26,13 @@ const Menu = props => (
             Home
         </SUI.Menu.Item>
         <SUI.Menu.Item as={Link} to="/Dashboard" active={props.location.pathname === "/Dashboard"}>
-            Saved events
+            Search events
         </SUI.Menu.Item>
 
         <SUI.Menu.Menu position="right">
         {
             props.loginState
-            ?<SUI.Menu.Item as={Link} to="/">Logout</SUI.Menu.Item>  
+            ?<SUI.Menu.Item as={Link} to="/Logout">Logout</SUI.Menu.Item>  
             :<SUI.Menu.Item as={Link} to="/Login">Login</SUI.Menu.Item>   
  
         } 

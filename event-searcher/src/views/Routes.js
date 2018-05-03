@@ -3,9 +3,13 @@ import './Routes.css'
 import 'react-virtualized/styles.css'
 import Home from './Home/Home'
 import Login from './Login/Login'
+import Forgot from './Forgot/Forgot'
 import Header from './Header/Header'
 import { BrowserRouter, Route } from 'react-router-dom'
 import UserDashboard from './UserDashboard/UserDashboard';
+import Logout from './Logout/Logout'
+import Detail from './Detail/Detail'
+// import Calendar from './Calendar/Calendar';
 
 class App extends Component {
   state = {
@@ -20,8 +24,14 @@ class App extends Component {
         <div className="App">
           <Header loginState={this.state.login} login={this.login} logout={this.logout}/>
           <Route exact path="/" component={Home} />
-          <Route path="/login" component={Login} />
+          <Route path="/login" render={() => <Login login={this.login}/> } />
           <Route path="/Dashboard" component={UserDashboard} />
+          <Route path ="/ForgotPassword" component={Forgot} />
+          <Route path ="/Logout" component={Logout} />
+          <Route path ="/Detail" component={Detail} />
+
+
+          {/* <Route path="/Calendar" component={Calendar} /> */}
 
         </div>
       </BrowserRouter>
