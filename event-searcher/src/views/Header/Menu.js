@@ -22,12 +22,23 @@ import { withRouter } from "react-router-dom";
 
 const Menu = props => (
     <SUI.Menu secondary pointing>
-        <SUI.Menu.Item as={Link} to="/" active={props.location.pathname === "/"}>
+        <SUI.Menu.Item as={Link} to="/UserDashboard" active={props.location.pathname === "/UserDashboard"}>
             Home
         </SUI.Menu.Item>
-        <SUI.Menu.Item as={Link} to="/Dashboard" active={props.location.pathname === "/Dashboard"}>
+
+        <SUI.Menu.Item as={Link} to="/Search" active={props.location.pathname === "/Search"}>
             Search events
         </SUI.Menu.Item>
+
+        <SUI.Popup
+            trigger={
+                <SUI.Menu.Item as={Link} to="/Detail" active={props.location.pathname === "/Detail"}>
+                    Details
+                </SUI.Menu.Item>
+            }
+            content="Details menu temporary - until link in table is made"
+            basic
+        />
 
         <SUI.Menu.Menu position="right">
         {

@@ -1,14 +1,15 @@
 import React, { Component } from 'react'
 import './Routes.css'
 import 'react-virtualized/styles.css'
-import Home from './Home/Home'
+import UserDashboard from './UserDashboard/UserDashboard'
 import Login from './Login/Login'
 import Forgot from './Forgot/Forgot'
 import Header from './Header/Header'
 import { BrowserRouter, Route } from 'react-router-dom'
-import UserDashboard from './UserDashboard/UserDashboard';
+import Search from './Search/Search';
 import Logout from './Logout/Logout'
 import Detail from './Detail/Detail'
+import Welcome from './Welcome/Welcome'
 // import Calendar from './Calendar/Calendar';
 
 class App extends Component {
@@ -23,9 +24,10 @@ class App extends Component {
       <BrowserRouter>
         <div className="App">
           <Header loginState={this.state.login} login={this.login} logout={this.logout}/>
-          <Route exact path="/" component={Home} />
+          <Route exact path="/" component={Welcome} />
+          <Route path="/UserDashboard" component={UserDashboard} />
           <Route path="/login" render={() => <Login login={this.login}/> } />
-          <Route path="/Dashboard" component={UserDashboard} />
+          <Route path="/Search" component={Search} />
           <Route path ="/ForgotPassword" component={Forgot} />
           <Route path ="/Logout" component={Logout} />
           <Route path ="/Detail" component={Detail} />

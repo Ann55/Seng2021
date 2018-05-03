@@ -27,6 +27,7 @@ export default class Home extends React.Component {
         this.setState({ searchString: e.target.value })
     }
 
+
     filterData = (searchString) => {
         const filteredData = searchString
             ? this.state.data.filter(d => d.society.includes(searchString))
