@@ -5,7 +5,6 @@ import Padding from '../common/Padding'
 import Search from '../common/Search'
 import * as RV from 'react-virtualized'
 import Save from '../common/SaveButton'
-import { Link } from 'react-router-dom'
 
 export default class Home extends React.Component {
     state = {
@@ -86,8 +85,7 @@ export default class Home extends React.Component {
                             <RV.Column
                                 dataKey="eventName"
                                 label="Event Name"
-                                width={400}
-                                cellRenderer={({cellData, rowData}) => <Link to={`detail/${rowData.id}`}>{cellData}</Link>}
+                                width={200}
                             />
                             <RV.Column
                                 dataKey="date"
@@ -95,14 +93,8 @@ export default class Home extends React.Component {
                                 width={200}
                             />
                             <RV.Column
-                                dataKey="going"
-                                label="going"
-                                width={200}
-                            />
-                            
-                            <RV.Column
-                                dataKey="interested"
-                                label="interested"
+                                dataKey="popularity"
+                                label="Popularity"
                                 width={200}
                             />
                         </RV.Table>

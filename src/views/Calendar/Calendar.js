@@ -1,24 +1,19 @@
 import React from 'react'
 import BigCalendar from 'react-big-calendar'
 import moment from 'moment'
+
+BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment))
 import { data } from '../../data/fakedata'
-import 'react-big-calendar/lib/css/react-big-calendar.css'
 
-BigCalendar.momentLocalizer(moment)
+let allViews = Object.keys(BigCalendar.Views).map(k => BigCalendar.Views[k])
 
-const datatataat = data.map(d => ({
-  title: d.eventName,
-  start: moment(d.date, "DD-MM-YY").toDate(),
-  end: moment(d.date, "DD-MM-YY").toDate(),
-}))
-
-console.log(datatataat)
-
-const Calendar = () => (
+let Calendar = () => (
   <BigCalendar
-    events={datatataat}
-    style={{ height: "70vh" }}
-    defaultDate={new Date()}
+    events={data}
+    views={allViews}
+    step={60}
+    showMultiDayTimes
+    defaultDate={new Date(2015, 3, 1)}
   />
 )
 
