@@ -88,7 +88,15 @@ export default class Home extends React.Component {
         
         let content
         if (!this.props.isLoggedIn) {
-            content = <h1>Plz log in thx</h1>
+            content = 
+                <div>
+                    <Padding />
+                    <Padding />
+
+                    <SUI.Grid.Column>
+                        <h3>You are not logged in, please &nbsp;<a href='/Login'> Log in </a>&nbsp; to use this feature</h3>
+                    </SUI.Grid.Column>
+                </div>
         } else {
             content = (
                 <div>

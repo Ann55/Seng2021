@@ -15,7 +15,10 @@ export default class Login extends React.Component {
     
 
     authenticate = () => {
-        const user = userData.find(d => d.username === this.state.userName && d.password === this.state.password)
+        console.log(this.state.username)
+        console.log(this.state.password)
+        const user = userData.find(d => d.userName === this.state.username && d.password === this.state.password)
+        console.log(user)
         if (user) {
             this.setState({ authError: "" })
             this.props.login()
