@@ -30,20 +30,14 @@ const Menu = props => (
             Search events
         </SUI.Menu.Item>
 
-        <SUI.Popup
-            trigger={
-                <SUI.Menu.Item as={Link} to="/Detail" active={props.location.pathname === "/Detail"}>
-                    Details
-                </SUI.Menu.Item>
-            }
-            content="Details menu temporary - until link in table is made"
-            basic
-        />
+        <SUI.Menu.Item as={Link} to="/Calendar" active={props.location.pathname === "/Calendar"}>
+            Calendar
+        </SUI.Menu.Item>
 
         <SUI.Menu.Menu position="right">
         {
             props.loginState
-            ?<SUI.Menu.Item as={Link} to="/Logout">Logout</SUI.Menu.Item>  
+            ?<SUI.Menu.Item as={Link} to="/Logout">Logout</SUI.Menu.Item>
             :<SUI.Menu.Item as={Link} to="/Login">Login</SUI.Menu.Item>   
  
         } 

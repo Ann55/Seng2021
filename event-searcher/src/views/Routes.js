@@ -10,7 +10,7 @@ import Search from './Search/Search';
 import Logout from './Logout/Logout'
 import Detail from './Detail/Detail'
 import Welcome from './Welcome/Welcome'
-// import Calendar from './Calendar/Calendar';
+import Calendar from './Calendar/Calendar';
 
 class App extends Component {
   state = {
@@ -25,15 +25,13 @@ class App extends Component {
         <div className="App">
           <Header loginState={this.state.login} login={this.login} logout={this.logout}/>
           <Route exact path="/" component={Welcome} />
-          <Route path="/UserDashboard" component={UserDashboard} />
-          <Route path="/login" render={() => <Login login={this.login}/> } />
+          <Route path="/UserDashboard" render={() => <UserDashboard isLoggedIn={this.state.login} />} />
           <Route path="/Search" component={Search} />
           <Route path ="/ForgotPassword" component={Forgot} />
-          <Route path ="/Logout" component={Logout} />
-          <Route path ="/Detail" component={Detail} />
-
-
-          {/* <Route path="/Calendar" component={Calendar} /> */}
+          <Route path="/login" render={(routeProps) => <Login login={this.login} {...routeProps}/> } />
+          <Route path ="/Logout" render={() => <Logout logout={this.logout}/>} />
+          <Route path ="/Detail/:id" component={Detail} />
+          <Route path="/Calendar" component={Calendar} />
 
         </div>
       </BrowserRouter>

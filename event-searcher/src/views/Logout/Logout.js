@@ -1,6 +1,13 @@
 import React from 'react'
 
-const Logout = () => (
-    <h2> You have logged out </h2>
-)
-export default Logout
+export default class Logout extends React.Component {
+    componentWillMount() {
+        this.props.logout()
+    }
+
+    render() {
+        return (
+            <h2> You have logged out </h2>
+        )
+    }
+}
