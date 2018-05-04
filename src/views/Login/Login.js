@@ -66,7 +66,7 @@ export default class Login extends React.Component {
                     </SUI.Form> 
                     <Padding/>
                     <SUI.Message attached='bottom'>
-                        <p>New to us? &nbsp;<a href='#'>Make an account</a>&nbsp;</p>
+                        <p>New to us? &nbsp;<a href='/MakeAccount'>Make an account</a>&nbsp;</p>
                         <p>&nbsp;<a href='/ForgotPassword'>Forgot your password?</a>&nbsp;</p>
                     </SUI.Message>
 
