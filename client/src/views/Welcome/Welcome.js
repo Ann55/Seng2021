@@ -1,16 +1,17 @@
 import React from "react"
 import * as SUI from "semantic-ui-react"
+import AccordionWelcom from './Accordion'
 
 const Welcome = () => (
-    <SUI.Grid className=" centered">
+    <SUI.Grid  className="vertically padded centered" container>
         <SUI.Grid.Column width='13'>
             <div>
                 <SUI.Header as='h2' attached='top'>
-                    Welcomee
+                    Welcome to UNSW Event Searcher
                 </SUI.Header>
-                <SUI.Segment attached>
-                    Event Searcher Page :DD
-                </SUI.Segment>
+                    <SUI.Segment attached>
+                        <AccordionWelcom/>
+                    </SUI.Segment>
             </div>
         </SUI.Grid.Column>
     </SUI.Grid>

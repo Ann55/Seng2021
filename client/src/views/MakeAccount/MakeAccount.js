@@ -2,7 +2,7 @@ import React from 'react'
 import * as SUI from 'semantic-ui-react'
 
 const MakeAccount = () => (
-    <SUI.Grid  className="vertically padded centered" container>
+    <SUI.Grid className="vertically padded centered" container>
 
         <SUI.Grid.Column width='7'>
             <SUI.Form>
