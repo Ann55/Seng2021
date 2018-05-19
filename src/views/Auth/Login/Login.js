@@ -1,36 +1,29 @@
 import React from 'react'
 import * as SUI from 'semantic-ui-react'
-import Padding from '../common/Padding'
-import { userData } from '../../data/fakedata'
+import Padding from '../../common/Padding'
+import firebase from '../../../scripts/firebase'
+import { Link } from 'react-router-dom'
+
+const auth = firebase.auth()
 
 export default class Login extends React.Component {
     state = {
-        username: "",
-        password: "",
-        authError: "",
+        email: '',
+        password: '',
+        authError: '',
     }
     
-    handleUsernameInput = (e) => this.setState({ username: e.target.value })
+    handleUsernameInput = (e) => this.setState({ email: e.target.value })
     handlePasswordInput = (e) => this.setState({ password: e.target.value })
     
-
     authenticate = () => {
-        console.log(this.state.username)
-        console.log(this.state.password)
-        const user = userData.find(d => d.userName === this.state.username && d.password === this.state.password)
-        console.log(user)
-        if (user) {
-            this.setState({ authError: "" })
-            this.props.login()
-            this.props.history.push("/UserDashboard")
-        }else{
-            this.setState({ authError: "Unlucky" })
-        }
-     }
+        auth.signInWithEmailAndPassword(this.state.email, this.state.password).catch(function(error) {
+            this.setState({ authError: error.message })
+        })      
+    }
 
-     render(){
-         console.log(this.props)
-         return(
+    render(){
+        return(
 
             <SUI.Grid  className="vertically padded centered" container>
 
@@ -38,11 +31,11 @@ export default class Login extends React.Component {
                     <SUI.Form className="ui large form">
                         <SUI.Form.Field >
                             <SUI.Form.Input
-                                value={this.state.userName}
+                                value={this.state.email}
                                 onChange={this.handleUsernameInput}
                                 iconPosition="left"
                                 icon="user"
-                                placeholder='Username/Email'
+                                placeholder='Email'
                                 error={!!this.state.authError}
                             />
                         </SUI.Form.Field>
@@ -66,8 +59,8 @@ export default class Login extends React.Component {
                     </SUI.Form> 
                     <Padding/>
                     <SUI.Message attached='bottom'>
-                        <p>New to us? &nbsp;<a href='/MakeAccount'>Make an account</a>&nbsp;</p>
-                        <p>&nbsp;<a href='/ForgotPassword'>Forgot your password?</a>&nbsp;</p>
+                        <p>New to us? <Link to='/MakeAccount'>Make an account</Link></p>
+                        <p><Link to='/ForgotPassword'>Forgot your password?</Link></p>
                     </SUI.Message>
 
                 </SUI.Grid.Column>

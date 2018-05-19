@@ -1,169 +1,152 @@
 import React from 'react'
 import * as SUI from 'semantic-ui-react'
-import { data } from '../../data/fakedata'
+import * as RV from 'react-virtualized'
 import Padding from '../common/Padding'
 import Search from '../common/Search'
-import * as RV from 'react-virtualized'
 import Save from '../common/SaveButton'
 import { Link } from 'react-router-dom'
+import firebase from '../../scripts/firebase'
+import ClashMessage from './ClashMessage'
+import Table from './Table'
+import Loading from './Loading'
+import NotLoggedIn from './NotLoggedIn'
 
-// templmao
-const userData = data.filter(d => d.isSaved)
+const db = firebase.firestore()
 
 export default class Home extends React.Component {
-    state = {
-        searchString: "",
-        data: userData,
-        filteredData: userData,
-        sortBy: "",
-        sortDirection: "ASC",
+    constructor(props) {
+        super(props)
+        const events = this.flattenEvents(props.societies)
+        this.state = {
+            searchString: '',
+            events,
+            filteredEvents: this.filterEvents('', events),
+        }    
+    }
+    
+    componentDidUpdate(prevProps) {
+        if (prevProps.societies !== this.props.societies) {
+            const events = this.flattenEvents(this.props.societies)
+            this.setState({ events, filteredEvents: this.filterEvents(this.state.searchString, events)})
+        }
+        if (prevProps.savedEvents !== this.props.savedEvents) {
+            this.setState({ filteredEvents: this.filterEvents(this.state.searchString, this.state.events )})
+        }
+    }
+
+    flattenEvents = (societies) => {
+        const events = []
+        for(const society of Object.values(societies)){
+            for(const event of Object.values(society.events)){
+                events.push({ ...event, societyId: society.id }) 
+            }
+        }
+        return events
+    }
+
+    handleSearchStringChange = (e) => {
+        const filteredEvents = this.filterEvents(e.target.value, this.state.events)
+        this.setState({ searchString: e.target.value, filteredEvents })
     }
 
     checkClash = () => {
-        const dateData = this.state.data.reduce((total, val) => {
-            if (total[val.date]) {
-                total[val.date].push(val)
-            } else {
-                total[val.date] = [val]
-            }
-            return total
-        }, {})
+        // sorting
+        const sortedEvents = [...this.state.events].filter(e => this.props.savedEvents[e.id]).sort((a, b) => {
+            if( a.dateStart.isAfter(b.dateStart)) return -1
+            if( a.dateStart.isSame(b.dateStart)) return 0
+            return 1
+        })
         const clashes = []
-        for(let [date, events] of Object.entries(dateData)) {
-            if(events.length > 1){
-                clashes.push(events)
+        for( let i = 0; i < sortedEvents.length-1; i++){
+            for( let j = i+1; j < sortedEvents.length; j++ ){
+                if(sortedEvents[i].dateEnd.isAfter(sortedEvents[j].dateStart)){
+                    clashes.push([sortedEvents[i], sortedEvents[j]])
+                }
             }
         }
         return clashes
     }
 
-    toggleSaved = (id) => {
-        const data = [...this.state.data]
-        const row = data.find(d => d.id === id)
-        row.isSaved = !row.isSaved
-        this.setState({ data })
-    }
-
-    handleSearchStringChange = (e) => {
-        this.filterData(e.target.value)
-        this.setState({ searchString: e.target.value })
-    }
-
-    filterData = (searchString) => {
+    filterEvents = (searchString, events) => {
         const filter = d => {
             const exp = new RegExp(searchString, 'i')
-            return exp.test(d.society) || exp.test(d.eventName)
+            return this.props.savedEvents[d.id] && (exp.test(this.props.societies[d.societyId].name) || exp.test(d.name))
         }
-        const filteredData = searchString
-            ? this.state.data.filter(filter)
-            : this.state.data
-        this.setState({ filteredData: filteredData })
+        return events.filter(filter)
     }
 
-    rowGetter = ({ index }) => this.state.filteredData[index]
-
-    handleGridSort = ({ sortBy, sortDirection }) => {
-        const comparer = (a, b) => {
-            if (sortDirection === 'ASC') {
-                return (a[sortBy] > b[sortBy]) ? 1 : -1
-            } else if (sortDirection === 'DESC') {
-                return (a[sortBy] < b[sortBy]) ? 1 : -1
-            }
+    toggleSaved = async(eventId) => {
+        const saved = await db.doc(`users/${this.props.user.uid}/saved/${eventId}`).get()
+        if (saved.exists) {
+            console.log('yah')
+            db.doc(`users/${this.props.user.uid}/saved/${eventId}`).delete()
+        } else {
+            console.log('nah')
+            db.doc(`users/${this.props.user.uid}/saved/${eventId}`).set({ saved: true })            
         }
-
-        const rows = sortDirection === 'NONE' ? [...this.state.data] : [...this.state.data].sort(comparer)
-
-        this.setState({ filteredData: rows, sortBy, sortDirection })
     }
 
     render() {
-        let messages = this.checkClash().map((events, i) => (
-            <SUI.Message error key={i}>
-
-                <p> You have a few events on at the same time: </p>
-                { events.map((event, j) => <p key={j}>{event.eventName}</p>) }
-
-            </SUI.Message>
-        ))
-        
-        let content
-        if (!this.props.isLoggedIn) {
-            content = 
-                <div>
-                    <Padding />
-                    <Padding />
-
-                    <SUI.Grid.Column>
-                        <h3>You are not logged in, please <Link to="/Login">Log in</Link> to use this feature</h3>
-                    </SUI.Grid.Column>
-                </div>
-        } else {
-            content = (
-                <div>
-                <Search value={this.state.searchString} onChange={this.handleSearchStringChange}/>
-                <Padding />
-                <SUI.Divider />
-                    { messages }
-                        
-                    <RV.AutoSizer disableHeight>
-                        {({width}) => (
-                            <RV.Table
-                                headerHeight={30}
-                                height={400}
-                                rowHeight={40}
-                                rowGetter={this.rowGetter}
-                                rowCount={this.state.filteredData.length}
-                                sort={this.handleGridSort}
-                                sortBy={this.state.sortBy}
-                                sortDirection={this.state.sortDirection}
-                                width={width}
-                            >
-                                <RV.Column
-                                    dataKey="isSaved"
-                                    label=""
-                                    width={60}
-                                    cellRenderer={({cellData, rowData}) => <Save value={cellData} toggleSaved={() => this.toggleSaved(rowData.id)}/>}
-                                    disableSort
-                                />
-                                <RV.Column
-                                    dataKey="society"
-                                    label="Society"
-                                    width={200}
-                                />
-                                <RV.Column
-                                    dataKey="eventName"
-                                    label="Event Name"
-                                    width={400}
-                                    cellRenderer={({cellData, rowData}) => <Link to={`detail/${rowData.id}`}>{cellData}</Link>}
-                                />
-                                <RV.Column
-                                    dataKey="date"
-                                    label="Date"
-                                    width={200}
-                                />
-                                <RV.Column
-                                    dataKey="going"
-                                    label="going"
-                                    width={200}
-                                />
-                                
-                                <RV.Column
-                                    dataKey="interested"
-                                    label="interested"
-                                    width={200}
-                                />
-                            </RV.Table>
-                        )}
-                    </RV.AutoSizer>
-                </div>
-            )
+        if(this.props.societies.length === 0){
+            //return screen laterrr
+            return <Loading />
         }
+
+        const content = !this.props.user
+            ?   <NotLoggedIn />
+            :   <div>
+                    <Search value={this.state.searchString} onChange={this.handleSearchStringChange}/>
+                    <Padding />
+                    <SUI.Divider />
+                    <ClashMessage clashes={this.checkClash()} />
+                    <Table data={this.state.filteredEvents}>
+                        <RV.Column
+                            dataKey="id"
+                            label=""
+                            width={40}
+                            cellRenderer={({cellData}) => <Save value={this.props.savedEvents[cellData]} toggleSaved={() => this.toggleSaved(cellData)}/>}
+                            disableSort
+                        />
+                        <RV.Column
+                            dataKey="societyId"
+                            label="Society"
+                            width={120}
+                            cellDataGetter={({rowData, dataKey}) => this.props.societies[rowData[dataKey]].name}
+                        />
+                        <RV.Column
+                            dataKey="name"
+                            label="Event Name"
+                            width={400}
+                            cellRenderer={({cellData, rowData}) => <Link to={`detail/${rowData.id}`}>{cellData}</Link>}
+                        />
+                        <RV.Column
+                            dataKey="dateStart"
+                            label="Start time"
+                            width={200}
+                            cellRenderer={({cellData}) => cellData.format('DD/MM/YY - H:mm')}
+                        />
+                        <RV.Column
+                            dataKey="dateEnd"
+                            label="End time"
+                            width={200}
+                            cellRenderer={({cellData}) => cellData.format('DD/MM/YY - H:mm')}
+                        />
+                        <RV.Column
+                            dataKey="going"
+                            label="going"
+                            width={100}
+                        />
+                        <RV.Column
+                            dataKey="interested"
+                            label="interested"
+                            width={100}
+                        />
+                    </Table>
+                </div>
+
         return (
             <SUI.Container>
-                <SUI.Header as='h1' >
-                    Saved items
-                </SUI.Header>
-
+                <SUI.Header as='h1'>Saved items</SUI.Header>
                 {content}
             </SUI.Container>
         )
