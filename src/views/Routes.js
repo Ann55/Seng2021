@@ -26,11 +26,19 @@ class App extends Component {
 
   componentDidMount() {
     firebase.auth().onAuthStateChanged(this.handleAuthChange)
+    firebase.auth().getRedirectResult().then(result => console.log(result))
     this.updateSocieties()
   }
 
   componentWillUnmount() {
     db.collection('society').onSnapshot(() => null)
+  }
+
+  addSavedEvent = (id) => this.setState({ savedEvents: { ...this.state.savedEvents, [id]: {saved: true} } })
+  deleteSavedEvent = (id) => {
+    const copy = {...this.state.savedEvents}
+    delete copy[id]
+    this.setState({ savedEvents: copy })
   }
 
   handleAuthChange = (user) => {
@@ -93,8 +101,8 @@ class App extends Component {
         <div className="App">
           <Header loginState={this.state.user !== null} />
           <Route exact path="/" component={Welcome} />
-          <Route path="/UserDashboard" render={() => <UserDashboard {...this.state} />} />
-          <Route path="/Search" render={() => <Search {...this.state}/>} />
+          <Route path="/UserDashboard" render={() => <UserDashboard {...this.state} addSavedEvent={this.addSavedEvent} deleteSavedEvent={this.deleteSavedEvent} />} />
+          <Route path="/Search" render={() => <Search {...this.state} addSavedEvent={this.addSavedEvent} deleteSavedEvent={this.deleteSavedEvent} />} />
           <Route path ="/ForgotPassword" component={Forgot} />
           <Route path ="/MakeAccount" component={MakeAccount} />
           <Route path="/Login" component={Login} />

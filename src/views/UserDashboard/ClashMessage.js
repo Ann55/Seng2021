@@ -6,7 +6,7 @@ const ClashMessage = (props) => (
         { props.clashes.map((events, i) => 
             <SUI.Message error key={i}>
                 <p> You have a few events on at the same time: </p>
-                { events.map((event, j) => <p key={j}>{event.name}</p> )}
+                { events.map((event, j) => <p key={j}> From: {event.dateStart.format('H:mm, DD/MM')} To: {event.dateEnd.format('H:mm, DD/MM')}: {event.name}</p> )}
             </SUI.Message>
         )}
     </div>

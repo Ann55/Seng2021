@@ -1,5 +1,6 @@
 import firebase from 'firebase'
 import 'firebase/firestore'
+import 'firebase/auth'
 
 // Initalize and export Firebase.
 const config = {

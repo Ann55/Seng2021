@@ -8,7 +8,8 @@ import { Link } from 'react-router-dom'
 import firebase from '../../scripts/firebase'
 import ClashMessage from './ClashMessage'
 import Table from './Table'
-import Loading from './Loading'
+import Add from './AddEvents'
+
 import NotLoggedIn from './NotLoggedIn'
 
 const db = firebase.firestore()
@@ -75,77 +76,78 @@ export default class Home extends React.Component {
         return events.filter(filter)
     }
 
-    toggleSaved = async(eventId) => {
-        const saved = await db.doc(`users/${this.props.user.uid}/saved/${eventId}`).get()
-        if (saved.exists) {
-            console.log('yah')
+    toggleSaved = (eventId) => {
+        if (this.props.savedEvents[eventId]) {
+            this.props.deleteSavedEvent(eventId)
             db.doc(`users/${this.props.user.uid}/saved/${eventId}`).delete()
         } else {
-            console.log('nah')
+            this.props.addSavedEvent(eventId)
             db.doc(`users/${this.props.user.uid}/saved/${eventId}`).set({ saved: true })            
         }
     }
 
     render() {
-        if(this.props.societies.length === 0){
-            //return screen laterrr
-            return <Loading />
-        }
-
-        const content = !this.props.user
-            ?   <NotLoggedIn />
-            :   <div>
-                    <Search value={this.state.searchString} onChange={this.handleSearchStringChange}/>
-                    <Padding />
-                    <SUI.Divider />
-                    <ClashMessage clashes={this.checkClash()} />
-                    <Table data={this.state.filteredEvents}>
-                        <RV.Column
-                            dataKey="id"
-                            label=""
-                            width={40}
-                            cellRenderer={({cellData}) => <Save value={this.props.savedEvents[cellData]} toggleSaved={() => this.toggleSaved(cellData)}/>}
-                            disableSort
-                        />
-                        <RV.Column
-                            dataKey="societyId"
-                            label="Society"
-                            width={120}
-                            cellDataGetter={({rowData, dataKey}) => this.props.societies[rowData[dataKey]].name}
-                        />
-                        <RV.Column
-                            dataKey="name"
-                            label="Event Name"
-                            width={400}
-                            cellRenderer={({cellData, rowData}) => <Link to={`detail/${rowData.id}`}>{cellData}</Link>}
-                        />
-                        <RV.Column
-                            dataKey="dateStart"
-                            label="Start time"
-                            width={200}
-                            cellRenderer={({cellData}) => cellData.format('DD/MM/YY - H:mm')}
-                        />
-                        <RV.Column
-                            dataKey="dateEnd"
-                            label="End time"
-                            width={200}
-                            cellRenderer={({cellData}) => cellData.format('DD/MM/YY - H:mm')}
-                        />
-                        <RV.Column
-                            dataKey="going"
-                            label="going"
-                            width={100}
-                        />
-                        <RV.Column
-                            dataKey="interested"
-                            label="interested"
-                            width={100}
-                        />
-                    </Table>
-                </div>
+        let content
+        if(!this.props.user) {
+            content = <NotLoggedIn />
+        } else if (Object.keys(this.props.savedEvents).length === 0){
+            content = <Add />
+        }else{
+            content = 
+            <div>
+                <Search value={this.state.searchString} onChange={this.handleSearchStringChange}/>
+                <Padding />
+                <SUI.Divider />
+                <ClashMessage clashes={this.checkClash()} />
+                <Table data={this.state.filteredEvents}>
+                    <RV.Column
+                        dataKey="id"
+                        label=""
+                        width={40}
+                        cellRenderer={({cellData}) => <Save value={this.props.savedEvents[cellData]} toggleSaved={() => this.toggleSaved(cellData)}/>}
+                        disableSort
+                    />
+                    <RV.Column
+                        dataKey="societyId"
+                        label="Society"
+                        width={120}
+                        cellDataGetter={({rowData, dataKey}) => this.props.societies[rowData[dataKey]].name}
+                    />
+                    <RV.Column
+                        dataKey="name"
+                        label="Event Name"
+                        width={400}
+                        cellRenderer={({cellData, rowData}) => <Link to={`detail/${rowData.id}`}>{cellData}</Link>}
+                    />
+                    <RV.Column
+                        dataKey="dateStart"
+                        label="Start time"
+                        width={200}
+                        cellRenderer={({cellData}) => cellData.format('DD/MM/YY - H:mm')}
+                    />
+                    <RV.Column
+                        dataKey="dateEnd"
+                        label="End time"
+                        width={200}
+                        cellRenderer={({cellData}) => cellData.format('DD/MM/YY - H:mm')}
+                    />
+                    <RV.Column
+                        dataKey="going"
+                        label="going"
+                        width={100}
+                    />
+                    <RV.Column
+                        dataKey="interested"
+                        label="interested"
+                        width={100}
+                    />
+                </Table>
+            </div>
+        }    
 
         return (
             <SUI.Container>
+                <p align='left' style={{ fontSize: 20 }}> Welcome back!</p>
                 <SUI.Header as='h1'>Saved items</SUI.Header>
                 {content}
             </SUI.Container>

@@ -1,8 +1,10 @@
 import React from 'react'
 import * as SUI from 'semantic-ui-react'
 import Padding from '../../common/Padding'
+import OGFirebase from 'firebase'
 import firebase from '../../../scripts/firebase'
-import { Link } from 'react-router-dom'
+import { Link,Redirect } from 'react-router-dom'
+import logo from '../../../data/ShortLogo.jpg'
 
 const auth = firebase.auth()
 
@@ -11,24 +13,49 @@ export default class Login extends React.Component {
         email: '',
         password: '',
         authError: '',
+        isLoggedIn: false
     }
     
     handleUsernameInput = (e) => this.setState({ email: e.target.value })
     handlePasswordInput = (e) => this.setState({ password: e.target.value })
     
-    authenticate = () => {
-        auth.signInWithEmailAndPassword(this.state.email, this.state.password).catch(function(error) {
-            this.setState({ authError: error.message })
-        })      
+    authenticateEmail = () => {
+        auth.signInWithEmailAndPassword(this.state.email, this.state.password)
+            .then(() => this.setState({ isLoggedIn: true}))
+            .catch(error => this.setState({ authError: error.message, isLoggedIn: false }))
     }
 
+    authenticateFb = () => {
+        const provider = new OGFirebase.auth.FacebookAuthProvider()
+        auth.signInWithPopup(provider)
+        .then(() => this.setState({ isLoggedIn: true}))
+        .catch(error => this.setState({ authError: error.message, isLoggedIn: false }))
+    }
+    authenticateGoogle = () => {
+        const provider = new OGFirebase.auth.GoogleAuthProvider()
+        auth.signInWithPopup(provider)
+        .then(() => this.setState({ isLoggedIn: true}))
+        .catch(error => this.setState({ authError: error.message, isLoggedIn: false }))
+    }
+    authenticateTwitter = () => {
+        const provider = new OGFirebase.auth.TwitterAuthProvider()
+        auth.signInWithPopup(provider)
+        .then(() => this.setState({ isLoggedIn: true}))
+        .catch(error => this.setState({ authError: error.message, isLoggedIn: false }))
+    }
     render(){
+        if(this.state.isLoggedIn) return <Redirect to='/UserDashboard'/>
         return(
 
             <SUI.Grid  className="vertically padded centered" container>
 
                 <SUI.Grid.Column width='7'>
-                    <SUI.Form className="ui large form">
+                    <SUI.Form className="ui large form" >
+                        <SUI.Header as='h1' textAlign='center'>
+                            <SUI.Image size='big' src={logo}/>
+                            {' '}Log in here
+                        </SUI.Header>
+                        <Padding />
                         <SUI.Form.Field >
                             <SUI.Form.Input
                                 value={this.state.email}
@@ -54,7 +81,7 @@ export default class Login extends React.Component {
                         </SUI.Form.Field>
 
                         <SUI.Form.Field>
-                            <SUI.Button className="ui fluid button" onClick={this.authenticate}>login </SUI.Button >
+                            <SUI.Button className="ui fluid button" onClick={this.authenticateEmail}>login </SUI.Button >
                         </SUI.Form.Field>
                     </SUI.Form> 
                     <Padding/>
@@ -62,7 +89,21 @@ export default class Login extends React.Component {
                         <p>New to us? <Link to='/MakeAccount'>Make an account</Link></p>
                         <p><Link to='/ForgotPassword'>Forgot your password?</Link></p>
                     </SUI.Message>
-
+                    <SUI.Popup
+                        trigger={<SUI.Icon size="large" circular color="blue" name="facebook f" onClick={this.authenticateFb}/>}
+                        content="Login through Facebook"
+                        basic
+                    />
+                    <SUI.Popup
+                        trigger={<SUI.Icon size="large" circular color="blue" name="google" onClick={this.authenticateGoogle} />}
+                        content="Login through Google"
+                        basic
+                    />
+                    <SUI.Popup
+                        trigger={<SUI.Icon size="large" circular color="blue" name="twitter" onClick={this.authenticateTwitter} />}
+                        content="Login through Twitter"
+                        basic
+                    />
                 </SUI.Grid.Column>
             </SUI.Grid>
          ) 

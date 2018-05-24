@@ -27,7 +27,7 @@ const Detail = props => {
                         <p> Date: {eventData.dateStart.format('DD/MM/YY - H:mm')} - {eventData.dateEnd.format('DD/MM/YY - H:mm')}  </p>
                         <p> Going: {eventData.going}</p>
                         <p> Interested:{eventData.interested} </p>
-                        <p> Location: city </p>
+                        <p> Location: {eventData.location} </p>
 
                         <SUI.Image src={map} />
                     </SUI.Segment>
@@ -40,15 +40,12 @@ const Detail = props => {
                         </h3>
                     </SUI.Segment>
                     <SUI.Segment style={{ minHeight: 410 }}>
-                        <p>  
-                            {eventData.about}
-                        </p>
-
+                    <div dangerouslySetInnerHTML={{__html: eventData.about}} />
 
                         <SUI.Popup
-                            trigger={<SUI.Icon size="big" name="facebook square" link onClick={() => window.open('https://www.facebook.com', '_blank').focus()} />}
+                            trigger={<SUI.Icon size="big" name="facebook square" link onClick={() => window.open( eventData.url ).focus()} />}
                             content="Find out more on Facebook."
-                            basic
+                            basic   
                         />
                     </SUI.Segment>
                 </SUI.Grid.Column>

@@ -1,10 +1,12 @@
 import React from 'react'
 import * as SUI from 'semantic-ui-react'
 import firebase from '../../../scripts/firebase'
+import { Redirect } from 'react-router-dom'
 
 class MakeAccount extends React.Component {
 
     state = {
+        successful: false,
         email: '',
         password: '',
         passwordConfirm: '',
@@ -28,15 +30,17 @@ class MakeAccount extends React.Component {
     submit = () => {
         if(this.isValid()){
             firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
+                .then( () => this.setState({ successful: true}))
                 .catch(function(error) {
                 // Handle Errors here.
-                    this.setState({ errMsg: error.message })
+                    this.setState({ errMsg: error.message, successful:false })
                     console.log(error)
                 })
         } 
     }
 
     render(){
+        if(this.state.successful) return <Redirect to='/UserDashboard'/>
         return(
             <SUI.Grid className="vertically padded centered" container>
 

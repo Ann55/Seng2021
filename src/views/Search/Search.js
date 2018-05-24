@@ -55,13 +55,12 @@ export default class Home extends React.Component {
         return events.filter(filter)
     }
 
-    toggleSaved = async(eventId) => {
-        const saved = await db.doc(`users/${this.props.user.uid}/saved/${eventId}`).get()
-        if (saved.exists) {
-            console.log('yah')
+    toggleSaved = (eventId) => {
+        if (this.props.savedEvents[eventId]) {
+            this.props.deleteSavedEvent(eventId)
             db.doc(`users/${this.props.user.uid}/saved/${eventId}`).delete()
         } else {
-            console.log('nah')
+            this.props.addSavedEvent(eventId)
             db.doc(`users/${this.props.user.uid}/saved/${eventId}`).set({ saved: true })            
         }
     }
@@ -74,7 +73,7 @@ export default class Home extends React.Component {
 
         return (
             <SUI.Container>
-                <SUI.Header as='h1'>Saved items</SUI.Header>
+                <SUI.Header as='h1'>Search for events</SUI.Header>
                 <div>
                     <Search value={this.state.searchString} onChange={this.handleSearchStringChange}/>
                     <Padding />
