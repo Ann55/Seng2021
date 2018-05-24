@@ -67,10 +67,8 @@ export default class Home extends React.Component {
 
     render() {
         if(this.props.societies.length === 0){
-            //return screen laterrr
             return <Loading />
         }
-
         return (
             <SUI.Container>
                 <SUI.Header as='h1'>Search for events</SUI.Header>
@@ -83,13 +81,21 @@ export default class Home extends React.Component {
                             dataKey="id"
                             label=""
                             width={40}
-                            cellRenderer={({cellData}) => <Save value={this.props.savedEvents[cellData]} toggleSaved={() => this.toggleSaved(cellData)}/>}
+                            cellRenderer={({cellData}) =>
+                                !this.props.user 
+                                    ? <SUI.Popup
+                                        trigger={<SUI.Icon style={{cursor:'not-allowed'}}name='heart' color='grey' size='large'/>}
+                                        content='Login to save events'
+                                        />
+                                    : <Save value={this.props.savedEvents[cellData]} 
+                                        toggleSaved={() => this.toggleSaved(cellData)}
+                                    />}
                             disableSort
                         />
                         <RV.Column
                             dataKey="societyId"
                             label="Society"
-                            width={120}
+                            width={200}
                             cellDataGetter={({rowData, dataKey}) => this.props.societies[rowData[dataKey]].name}
                         />
                         <RV.Column
@@ -101,13 +107,13 @@ export default class Home extends React.Component {
                         <RV.Column
                             dataKey="dateStart"
                             label="Start time"
-                            width={200}
+                            width={150}
                             cellRenderer={({cellData}) => cellData.format('DD/MM/YY - H:mm')}
                         />
                         <RV.Column
                             dataKey="dateEnd"
                             label="End time"
-                            width={200}
+                            width={150}
                             cellRenderer={({cellData}) => cellData.format('DD/MM/YY - H:mm')}
                         />
                         <RV.Column
@@ -118,7 +124,7 @@ export default class Home extends React.Component {
                         <RV.Column
                             dataKey="interested"
                             label="interested"
-                            width={100}
+                            width={130}
                         />
                     </Table>
                 </div>

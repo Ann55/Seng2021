@@ -1,7 +1,5 @@
 import React from 'react'
 import * as SUI from 'semantic-ui-react'
-import Image from 'react-image'
-import { data } from '../../data/fakedata'
 import map from '../../data/download.jpg'
 
 const findEvent = (eventId, societies) => {
@@ -24,10 +22,10 @@ const Detail = props => {
             <SUI.Grid.Row>
                 <SUI.Grid.Column width='5'>
                     <SUI.Segment style={{ minHeight: 480 }}>
-                        <p> Date: {eventData.dateStart.format('DD/MM/YY - H:mm')} - {eventData.dateEnd.format('DD/MM/YY - H:mm')}  </p>
-                        <p> Going: {eventData.going}</p>
-                        <p> Interested:{eventData.interested} </p>
-                        <p> Location: {eventData.location} </p>
+                        <p> <b> Date: </b>{eventData.dateStart.format('DD/MM/YY - H:mm')} - {eventData.dateEnd.format('DD/MM/YY - H:mm')}  </p>
+                        <p> <b> Going: </b>{eventData.going}</p>
+                        <p> <b> Interested: </b>{eventData.interested} </p>
+                        <p> <b> Location: </b>{eventData.location} </p>
 
                         <SUI.Image src={map} />
                     </SUI.Segment>
@@ -41,7 +39,7 @@ const Detail = props => {
                     </SUI.Segment>
                     <SUI.Segment style={{ minHeight: 410 }}>
                     <div dangerouslySetInnerHTML={{__html: eventData.about}} />
-
+                        <br/>
                         <SUI.Popup
                             trigger={<SUI.Icon size="big" name="facebook square" link onClick={() => window.open( eventData.url ).focus()} />}
                             content="Find out more on Facebook."

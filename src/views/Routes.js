@@ -108,7 +108,7 @@ class App extends Component {
           <Route path="/Login" component={Login} />
           <Route path ="/Logout" component={Logout} />
           <Route path ="/Detail/:id" render={( props ) => <Detail {...this.state} {...props} />} />
-          <Route path="/Calendar" component={Calendar} />
+          <Route path="/Calendar" render={() => <Calendar {...this.state} />} />
 
         </div>
       </BrowserRouter>

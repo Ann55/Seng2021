@@ -9,6 +9,7 @@ import firebase from '../../scripts/firebase'
 import ClashMessage from './ClashMessage'
 import Table from './Table'
 import Add from './AddEvents'
+import Popup from './Popup'
 
 import NotLoggedIn from './NotLoggedIn'
 
@@ -53,9 +54,9 @@ export default class Home extends React.Component {
     checkClash = () => {
         // sorting
         const sortedEvents = [...this.state.events].filter(e => this.props.savedEvents[e.id]).sort((a, b) => {
-            if( a.dateStart.isAfter(b.dateStart)) return -1
+            if( a.dateStart.isAfter(b.dateStart)) return 1
             if( a.dateStart.isSame(b.dateStart)) return 0
-            return 1
+            return -1
         })
         const clashes = []
         for( let i = 0; i < sortedEvents.length-1; i++){
@@ -66,6 +67,22 @@ export default class Home extends React.Component {
             }
         }
         return clashes
+    }
+
+    getClashes = (id, clashes) =>{
+        const clashedEvents = []
+        for (const clash of clashes) {
+            if (clash[0] === clash[1]) {
+                continue
+            }
+            if (clash[0].id === id) {
+                clashedEvents.push(clash[1])
+            }
+            if (clash[1].id === id) {
+                clashedEvents.push(clash[0])
+            }
+        }
+        return clashedEvents
     }
 
     filterEvents = (searchString, events) => {
@@ -87,6 +104,8 @@ export default class Home extends React.Component {
     }
 
     render() {
+        const clashes = this.checkClash()
+        console.log(clashes)
         let content
         if(!this.props.user) {
             content = <NotLoggedIn />
@@ -98,7 +117,6 @@ export default class Home extends React.Component {
                 <Search value={this.state.searchString} onChange={this.handleSearchStringChange}/>
                 <Padding />
                 <SUI.Divider />
-                <ClashMessage clashes={this.checkClash()} />
                 <Table data={this.state.filteredEvents}>
                     <RV.Column
                         dataKey="id"
@@ -110,7 +128,7 @@ export default class Home extends React.Component {
                     <RV.Column
                         dataKey="societyId"
                         label="Society"
-                        width={120}
+                        width={200}
                         cellDataGetter={({rowData, dataKey}) => this.props.societies[rowData[dataKey]].name}
                     />
                     <RV.Column
@@ -122,13 +140,13 @@ export default class Home extends React.Component {
                     <RV.Column
                         dataKey="dateStart"
                         label="Start time"
-                        width={200}
+                        width={150}
                         cellRenderer={({cellData}) => cellData.format('DD/MM/YY - H:mm')}
                     />
                     <RV.Column
                         dataKey="dateEnd"
                         label="End time"
-                        width={200}
+                        width={150}
                         cellRenderer={({cellData}) => cellData.format('DD/MM/YY - H:mm')}
                     />
                     <RV.Column
@@ -139,8 +157,15 @@ export default class Home extends React.Component {
                     <RV.Column
                         dataKey="interested"
                         label="interested"
-                        width={100}
+                        width={130}
                     />
+                    <RV.Column
+                        dataKey="id"
+                        label=""
+                        width={40}
+                        cellRenderer={({rowData}) => <Popup clashedEvents={this.getClashes(rowData.id, clashes)}/>}
+                        disableSort
+                    />    
                 </Table>
             </div>
         }    

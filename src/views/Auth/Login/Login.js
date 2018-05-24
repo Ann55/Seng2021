@@ -90,17 +90,17 @@ export default class Login extends React.Component {
                         <p><Link to='/ForgotPassword'>Forgot your password?</Link></p>
                     </SUI.Message>
                     <SUI.Popup
-                        trigger={<SUI.Icon size="large" circular color="blue" name="facebook f" onClick={this.authenticateFb}/>}
+                        trigger={<SUI.Icon style={{cursor:'pointer'}} size="large" circular color="blue" name="facebook f" onClick={this.authenticateFb}/>}
                         content="Login through Facebook"
                         basic
                     />
                     <SUI.Popup
-                        trigger={<SUI.Icon size="large" circular color="blue" name="google" onClick={this.authenticateGoogle} />}
+                        trigger={<SUI.Icon style={{cursor:'pointer'}} size="large" circular color="blue" name="google" onClick={this.authenticateGoogle} />}
                         content="Login through Google"
                         basic
                     />
                     <SUI.Popup
-                        trigger={<SUI.Icon size="large" circular color="blue" name="twitter" onClick={this.authenticateTwitter} />}
+                        trigger={<SUI.Icon style={{cursor:'pointer'}} size="large" circular color="blue" name="twitter" onClick={this.authenticateTwitter} />}
                         content="Login through Twitter"
                         basic
                     />

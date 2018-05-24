@@ -2,12 +2,16 @@ import React from 'react'
 import * as RV from 'react-virtualized'
 
 export default class Table extends React.Component {
-    state = {
-        sortBy: '',
-        sortDirection: 'ASC',
-        sortedData: this.props.data,
+    constructor(props) {
+        super(props)
+        const sortedData = this.sortData(this.props.data, '', 'ASC')
+        this.state = {
+            sortBy: '',
+            sortDirection: 'ASC',
+            sortedData,
+        }    
     }
-
+    
     componentDidUpdate(prevProps) {
         if (prevProps.data !== this.props.data) {
             this.setState({ sortedData: this.sortData(this.props.data, this.state.sortBy, this.state.sortDirection) })
