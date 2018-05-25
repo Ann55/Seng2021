@@ -11,6 +11,8 @@ class MakeAccount extends React.Component {
         password: '',
         passwordConfirm: '',
         emailErrMsg: '',
+        pwErrMsg: '',
+        pwConfirmErrMsg: '',
         agree: false
     }
 
@@ -28,6 +30,12 @@ class MakeAccount extends React.Component {
     submit = () => {
         if(!this.isEmailValid()) {
             this.setState({ emailErrMsg: 'Invalid email' })
+        }
+        if(!this.isPwLongEnough()){
+            this.setState({ pwErrMsg: 'Password must be 6 or more characters long' })
+        }
+        if(!this.doesPwMatch()){
+            this.setState({ pwConfirmErrMsg: 'Password does not match' })
         }
         if(this.isValid()){
             firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
@@ -53,14 +61,14 @@ class MakeAccount extends React.Component {
                                 {this.state.emailErrMsg ? <SUI.Message negative content={this.state.emailErrMsg} /> : null} 
                             </SUI.Form.Field>
         
-                            <SUI.Form.Field error={ !this.isPwLongEnough() }> 
+                            <SUI.Form.Field error={ !!this.state.pwErrMsg }> 
                                 <SUI.Form.Input value={this.state.password} onChange={this.changePassword} label='password' type='password'/>
-                                {!this.isPwLongEnough() ? <SUI.Message negative content="Password not long enough" /> : null} 
+                                {this.state.pwErrMsg ? <SUI.Message negative content={this.state.pwErrMsg} /> : null} 
                             </SUI.Form.Field>
         
-                            <SUI.Form.Field error={ !this.doesPwMatch() }> 
+                            <SUI.Form.Field error={ !!this.state.pwConfirmErrMsg }> 
                                 <SUI.Form.Input value={this.state.passwordConfirm} onChange={this.changePassword2} label='confirm password' type='password'/>
-                                {!this.doesPwMatch() ? <SUI.Message negative content="Password does not match" /> : null} 
+                                {this.state.pwConfirmErrMsg ? <SUI.Message negative content={this.state.pwConfirmErrMsg} /> : null} 
                             </SUI.Form.Field>  
         
                             <SUI.Form.Field control={SUI.Checkbox} checked={this.state.agree} onClick={this.toggleAgree} label='I agree to the Terms and Conditions' />

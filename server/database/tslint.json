@@ -1,0 +1,12 @@
+{
+    "defaultSeverity": "error",
+    "extends": [
+        "tslint:recommended"
+    ],
+    "rules": {
+        "semicolon": [true, "never"],
+        "quotemark": [true, "single"],
+        "indent": [true, "tabs"],
+        "no-console": false
+    }
+}

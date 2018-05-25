@@ -13,7 +13,7 @@ export default class Login extends React.Component {
         email: '',
         password: '',
         authError: '',
-        isLoggedIn: false
+        isLoggedIn: false,
     }
     
     handleUsernameInput = (e) => this.setState({ email: e.target.value })
@@ -45,12 +45,13 @@ export default class Login extends React.Component {
     }
     render(){
         if(this.state.isLoggedIn) return <Redirect to='/UserDashboard'/>
+        if(!this.state.isLoggedIn) 
         return(
 
             <SUI.Grid  className="vertically padded centered" container>
 
                 <SUI.Grid.Column width='7'>
-                    <SUI.Form className="ui large form" >
+                    <SUI.Form className="ui large form">
                         <SUI.Header as='h1' textAlign='center'>
                             <SUI.Image size='big' src={logo}/>
                             {' '}Log in here
@@ -78,6 +79,8 @@ export default class Login extends React.Component {
                                 error={!!this.state.authError}
 
                             />
+                        {!this.state.authError ? null: <SUI.Message negative content='Incorrect password or email' />} 
+
                         </SUI.Form.Field>
 
                         <SUI.Form.Field>

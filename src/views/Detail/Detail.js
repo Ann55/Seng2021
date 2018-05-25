@@ -1,6 +1,6 @@
 import React from 'react'
 import * as SUI from 'semantic-ui-react'
-import map from '../../data/download.jpg'
+import Map from './Map'
 
 const findEvent = (eventId, societies) => {
     for(const society of Object.values(societies)){
@@ -22,12 +22,12 @@ const Detail = props => {
             <SUI.Grid.Row>
                 <SUI.Grid.Column width='5'>
                     <SUI.Segment style={{ minHeight: 480 }}>
-                        <p> <b> Date: </b>{eventData.dateStart.format('DD/MM/YY - H:mm')} - {eventData.dateEnd.format('DD/MM/YY - H:mm')}  </p>
+                        <p> <b> Date: </b>{eventData.dateStart.format('DD/MM/YY  H:mm')} ~ {eventData.dateEnd.format('DD/MM/YY  H:mm')}  </p>
                         <p> <b> Going: </b>{eventData.going}</p>
                         <p> <b> Interested: </b>{eventData.interested} </p>
                         <p> <b> Location: </b>{eventData.location} </p>
 
-                        <SUI.Image src={map} />
+                    <Map content={eventData.location}/>
                     </SUI.Segment>
                 </SUI.Grid.Column>  
 
