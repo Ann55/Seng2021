@@ -1,18 +1,20 @@
 {
-  "name": "server",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "facebook-scrape",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "npm run scrape && npm run pushFirebase",
+    "scrape": "ts-node scrape.ts",
+    "pushFirebase": "ts-node addToFirebase.ts"
   },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
-    "firebase": "^5.0.2",
-    "sql.js": "^0.5.0"
+    "firebase": "^5.0.3",
+    "firebase-admin": "^5.12.1",
+    "firebase-functions": "^1.0.3",
+    "puppeteer": "^1.4.0"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0"
+    "@types/puppeteer": "^1.3.2",
+    "ts-node": "^6.0.5",
+    "tslint": "^5.10.0",
+    "typescript": "^2.8.3"
   }
 }

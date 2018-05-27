@@ -105,7 +105,6 @@ export default class Home extends React.Component {
 
     render() {
         const clashes = this.checkClash()
-        console.log(clashes)
         let content
         if(!this.props.user) {
             content = <NotLoggedIn />

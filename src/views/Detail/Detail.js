@@ -16,7 +16,6 @@ const Detail = props => {
     if (!eventData) {
         return <h1>Not found</h1>
     }
-    console.log(eventData.societyId)
     return (
         <SUI.Grid  className=" centered" container columns={2} divided>
             <SUI.Grid.Row>
@@ -27,7 +26,7 @@ const Detail = props => {
                         <p> <b> Interested: </b>{eventData.interested} </p>
                         <p> <b> Location: </b>{eventData.location} </p>
 
-                    <Map content={eventData.location}/>
+                    <Map location={eventData.location}/>
                     </SUI.Segment>
                 </SUI.Grid.Column>  
 

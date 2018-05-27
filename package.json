@@ -5,6 +5,8 @@
   "dependencies": {
     "@google/maps": "^0.4.6",
     "firebase": "^5.0.1",
+    "geocoder": "^0.2.3",
+    "geocoding": "^1.0.5",
     "google-map-react": "^1.0.3",
     "google-maps-react": "^2.0.2",
     "moment": "^2.22.1",
